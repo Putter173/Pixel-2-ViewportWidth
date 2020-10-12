@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<head>
+  <style>
+    body {
+      margin: 0;
+    }
+    body,
+    input,
+    button {
+      font-family: "Courier New", Courier, monospace;
+    }
+    button,
+    input {
+      border: none;
+      padding: 0.5vw;
+      border-radius: 100px;
+    }
+    button:focus,
+    button:hover,
+    input {
+      outline: none;
+    }
+    input {
+      background-color: #f5f5f5;
+    }
+    #hiddenInput {
+      display: none;
+    }
+    #submit {
+      padding-top: 0.25vw;
+    }
+    div {
+      display: grid;
+      place-items: center;
+    }
+    #formDiv {
+      height: 100vh;
+    }
+    :focus {
+      border: 2px solid lightgray;
+    }
+    button:active,
+    input#submit:active {
+      background-color: lightgray;
+      border: none;
+    }
+    #copy {
+      float: right;
+      display: none;
+    }
+    #ans {
+      margin: 0;
+      line-height: 2.5em;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="formDiv">
+    <form name="login" onSubmit="calculate(); return false;" action="#">
+      <h1>PX to VW 👾</h1>
+      <div>
+        <input id="hiddenInput"/>
+        <input placeholder="VW" id="userVW" type="text" />
+        <br />
+        <input placeholder="PX" id="userPX" type="text" />
+        <br />
+        <input id="submit" type="submit" value="Calculate 😁" />
+        <br />
+      </div>
+      <p id="ans">NaN</p>
+      <button id="copy" onclick="cc()">Copy 📋</button>
+    </form>
+  </div>
+  <script>
+    // Caculation Function
+    function calculate() {
+      var VW = document.getElementById("userVW").value;
+      var PX = document.getElementById("userPX").value;
+      divided = PX / VW;
+      ans = divided * 100;
+      answer = ans.toString().split(".")[0].length;
+      if (answer === 1) {
+        Ans = ans.toFixed(8);
+      } else if (answer === 2) {
+        Ans = ans.toFixed(7);
+      } else if (answer === 3) {
+        Ans = ans.toFixed(6);
+      } else if (answer === 4) {
+        Ans = ans.toFixed(5);
+      } else if (answer === 5) {
+        Ans = ans.toFixed(4);
+      } else if (answer === 6) {
+        Ans = ans.toFixed(3);
+      } else if (answer === 7) {
+        Ans = ans.toFixed(2);
+      } else if (answer === 8) {
+        Ans = ans.toFixed(1);
+      } else if (answer >= 9) {
+        Ans = ans.toFixed(0);
+      }
+      if (Ans === "NaN") {
+        fullAns = Ans
+      } else {
+        fullAns = Ans + "vw"
+      }
+      document.getElementById("ans").innerHTML = fullAns;
+      document.getElementById("ans").style.display = "inline-block";
+      document.getElementById("copy").style.display = "block";
+    }
+    // Copy - Modified from https://techoverflow.net/2018/03/30/copying-strings-to-the-clipboard-using-pure-javascript/
+    function cc() {
+      var el = document.createElement('textarea');
+      el.value = (document.getElementById("ans").innerHTML)
+      el.setAttribute('readonly', '');
+      el.style = { position: 'absolute', left: '-9999px' };
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+    }
+    // Tab Resetter
+      document.getElementById("submit").addEventListener("keydown", function(e) {
+        if (event.keyCode == 9 && document.getElementById("ans").style.display == "") {
+          document.getElementById("hiddenInput").style.display = "block";
+          document.getElementById("hiddenInput").focus()
+          document.getElementById("hiddenInput").style.display = "none";
+        }
+      });
+      document.getElementById("copy").addEventListener("keydown", function(e) {
+        if (event.keyCode == 9 && document.getElementById("ans").style.display == "inline-block") {
+          document.getElementById("hiddenInput").style.display = "block";
+          document.getElementById("hiddenInput").focus()
+          document.getElementById("hiddenInput").style.display = "none";
+        }
+      });
+  </script>
+</body>
